@@ -1,0 +1,78 @@
+version: "3.8"
+
+services:
+  heroes-service:
+    container_name: heroes-service
+    build:
+      context: ../
+      dockerfile: ./docker/heroes/Dockerfile
+    restart: always
+    networks:
+      - internal
+    expose:
+      - ${HEROES_SERVICE_PORT}
+    environment:
+      - HEROES_SERVICE_PORT=${HEROES_SERVICE_PORT}
+
+  teams-service:
+    container_name: teams-service
+    build:
+      context: ../
+      dockerfile: ./docker/teams/Dockerfile
+    restart: always
+    networks:
+      - internal
+    expose:
+      - ${TEAMS_SERVICE_PORT}
+    environment:
+      - TEAMS_SERVICE_PORT=${TEAMS_SERVICE_PORT}
+
+  gateway:
+    container_name: gateway
+    build:
+      context: ../
+      dockerfile: ./docker/gateway/Dockerfile
+    restart: always
+    networks:
+      - internal
+    depends_on:
+      - heroes-service
+      - teams-service
+    expose:
+      - ${GATEWAY_PORT}
+    environment:
+      - GATEWAY_PORT=${GATEWAY_PORT}
+      - HEROES_SERVICE_HOST=${HEROES_SERVICE_HOST}
+      - HEROES_SERVICE_PORT=${HEROES_SERVICE_PORT}
+      - TEAMS_SERVICE_HOST=${TEAMS_SERVICE_HOST}
+      - TEAMS_SERVICE_PORT=${TEAMS_SERVICE_PORT}
+
+  proxy:
+    container_name: proxy
+    image: nginx:1.18.0-alpine
+    restart: always
+    networks:
+      - internal
+      - external
+    depends_on:
+      - gateway
+    ports:
+      - ${NGINX_PORT}:${NGINX_PORT}
+    environment:
+      - NGINX_PORT=${NGINX_PORT}
+      - GATEWAY_HOST=${GATEWAY_HOST}
+      - GATEWAY_PORT=${GATEWAY_PORT}
+    volumes:
+      - ./proxy/default.template:/etc/nginx/conf.d/default.template
+    command: >
+      /bin/sh -c "envsubst '$${NGINX_PORT} $${GATEWAY_HOST} $${GATEWAY_PORT}'
+      < /etc/nginx/conf.d/default.template
+      > /etc/nginx/conf.d/default.conf
+      && nginx -g 'daemon off;'"
+
+networks:
+  internal:
+    name: internal
+
+  external:
+    name: external

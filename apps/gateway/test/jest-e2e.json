@@ -1,0 +1,15 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@super-heros/core/(.*)": "<rootDir>/../libs/core/src/$1",
+    "@super-heros/core": "<rootDir>/../libs/core/src",
+    "@super-heros/data/(.*)": "<rootDir>/../libs/data/src/$1",
+    "@super-heros/data": "<rootDir>/../libs/data/src"
+  }
+}

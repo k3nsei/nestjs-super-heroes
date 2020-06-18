@@ -1,0 +1,57 @@
+{
+  "collection": "@nestjs/schematics",
+  "monorepo": true,
+  "root": "apps/gateway",
+  "sourceRoot": "apps/gateway/src",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/gateway/tsconfig.app.json"
+  },
+  "projects": {
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
+      }
+    },
+    "data": {
+      "type": "library",
+      "root": "libs/data",
+      "entryFile": "index",
+      "sourceRoot": "libs/data/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/data/tsconfig.lib.json"
+      }
+    },
+    "gateway": {
+      "type": "application",
+      "root": "apps/gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/gateway/tsconfig.app.json"
+      }
+    },
+    "heroes": {
+      "type": "application",
+      "root": "apps/heroes",
+      "entryFile": "main",
+      "sourceRoot": "apps/heroes/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/heroes/tsconfig.app.json"
+      }
+    },
+    "teams": {
+      "type": "application",
+      "root": "apps/teams",
+      "entryFile": "main",
+      "sourceRoot": "apps/teams/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/teams/tsconfig.app.json"
+      }
+    }
+  }
+}

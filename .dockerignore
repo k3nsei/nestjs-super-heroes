@@ -1,0 +1,5 @@
+docker/.env
+docker/.env.example
+
+node_modules/
+dist/

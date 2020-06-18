@@ -1,0 +1,17 @@
+server {
+	listen ${NGINX_PORT} default_server;
+	listen [::]:${NGINX_PORT} default_server;
+	server_name _;
+
+  root /usr/share/nginx/html;
+  index index.html index.htm;
+
+  location / {
+    proxy_redirect off;
+    proxy_set_header Host $host:$server_port;
+    proxy_set_header X-Forwarded-Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_pass http://${GATEWAY_HOST}:${GATEWAY_PORT}/;
+  }
+}
