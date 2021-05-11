@@ -73,7 +73,7 @@
     "@nestjs/swagger": "^4.5.10",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
